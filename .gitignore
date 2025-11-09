@@ -1,22 +1,15 @@
-# Node
 node_modules/
 npm-debug.log*
 yarn-error.log*
-
-# Python
 __pycache__/
 *.pyc
-
-# Env & secrets
 .env
 .env.*
-.envrc
 .env.local
+.envrc
 .env.backend*
-.env.backend-*
-
-# Terraform
-**/.terraform/
+.env.frontend*
+**/.terraform/*
 *.tfstate
 *.tfstate.*
 crash.log
@@ -29,11 +22,7 @@ terraform.tfvars
 terraform.tfvars.json
 terraform_backup/
 **/terraform_backup/*
-
-# macOS
-.DS_Store
-
-# Coverage/build
-coverage/
-build/
 dist/
+build/
+coverage/
+.DS_Store
