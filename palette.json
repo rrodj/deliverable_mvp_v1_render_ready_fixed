@@ -1,0 +1,14 @@
+{
+  "name": "Inventory Guardian \u2014 Control Tower v2",
+  "colors": {
+    "bg": "#0f172a",
+    "surface": "#111827",
+    "muted": "#94a3b8",
+    "text": "#e5e7eb",
+    "primary": "#22c55e",
+    "warning": "#f59e0b",
+    "error": "#ef4444",
+    "success": "#22c55e",
+    "outline": "#1f2937"
+  }
+}

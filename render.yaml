@@ -1,0 +1,41 @@
+services:
+  - type: web
+    name: ig-backend
+    env: python
+    region: oregon
+    plan: starter
+    branch: main
+    rootDir: .
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: gunicorn -w 2 -k gthread -b 0.0.0.0:$PORT backend.app:app
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: DEMO_API_TOKEN
+        value: demo-token-please-change
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: STRIPE_WEBHOOK_SECRET
+        value: whsec_stub
+      - key: STRIPE_PRICE_STARTER
+        value: price_stub_start
+      - key: STRIPE_PRICE_PRO
+        value: price_stub_pro
+      - key: STRIPE_PRICE_ENTERPRISE
+        value: price_stub_enterprise
+
+  - type: static_site
+    name: ig-frontend
+    plan: starter
+    branch: main
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          name: ig-backend
+          type: web
+          property: url

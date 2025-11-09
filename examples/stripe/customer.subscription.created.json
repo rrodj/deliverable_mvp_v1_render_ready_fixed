@@ -1,0 +1,21 @@
+{
+  "id": "evt_subscription_created_test",
+  "object": "event",
+  "type": "customer.subscription.created",
+  "data": {
+    "object": {
+      "id": "sub_test_123",
+      "status": "active",
+      "current_period_end": 1893456000,
+      "items": {
+        "data": [
+          {
+            "price": {
+              "id": "price_pro_123"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

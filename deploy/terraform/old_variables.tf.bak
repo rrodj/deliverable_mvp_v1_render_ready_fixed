@@ -1,0 +1,5 @@
+variable "project_name" { type = string, default = "inventory-guardian" }
+variable "region"       { type = string, default = "us-east-1" }
+variable "container_image_backend" { type = string }
+variable "container_image_frontend" { type = string }
+variable "desired_count" { type = number, default = 1 }

@@ -1,0 +1,35 @@
+name: ci-mvp
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Frontend build
+        run: |
+          npm ci || npm install
+          npm run build
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Backend smoke
+        run: |
+          python -m venv .venv && source .venv/bin/activate
+          pip install -r backend/requirements.txt
+          python - <<'PY'
+from app import create_app
+app = create_app()
+with app.test_client() as c:
+    r = c.get('/healthz')
+    assert r.status_code == 200
+print('healthz OK')
+PY
+      - name: Docker build (no push)
+        run: |
+          docker build -t ig-backend -f deploy/Dockerfile.backend .
+          docker build -t ig-frontend -f deploy/Dockerfile.frontend .

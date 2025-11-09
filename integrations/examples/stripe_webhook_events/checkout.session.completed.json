@@ -1,0 +1,13 @@
+{
+  "id": "evt_test_checkout_completed",
+  "object": "event",
+  "type": "checkout.session.completed",
+  "data": {
+    "object": {
+      "id": "cs_test_a1b2c3",
+      "object": "checkout.session",
+      "mode": "subscription",
+      "status": "complete"
+    }
+  }
+}

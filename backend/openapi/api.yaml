@@ -1,0 +1,202 @@
+openapi: 3.0.3
+info:
+  title: Inventory Guardian API (MVP)
+  version: 0.1.0
+  description: >
+    Minimal API for Inventory Guardian MVP. Token stub auth, CSV upload,
+    calibrations, alerts, weekly reports, Stripe webhook, healthz.
+servers:
+  - url: http://localhost:8000
+paths:
+  /healthz:
+    get:
+      summary: Liveness probe
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: ok }
+                  version: { type: string }
+  /auth/login:
+    post:
+      summary: Login (stub) — returns a demo bearer token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+  /uploads/menus:
+    post:
+      summary: Upload menus CSV (multipart)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Ingested
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items_ingested: { type: integer }
+  /calibrations:
+    get:
+      summary: List calibrations
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Calibration'
+    post:
+      summary: Create calibration
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalibrationCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Calibration'
+  /alerts:
+    get:
+      summary: List alerts
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Alert'
+  /alerts/test:
+    post:
+      summary: Create a test alert
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alert'
+  /reports/weekly:
+    get:
+      summary: Weekly report aggregate
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: week
+          schema: { type: string, example: "2025-W45" }
+          description: ISO week (optional). Defaults to current week.
+      responses:
+        '200':
+          description: Report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeeklyReport'
+  /webhooks/stripe:
+    post:
+      summary: Stripe webhook receiver (verification stub in MVP)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Accepted
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    LoginRequest:
+      type: object
+      required: [username, password]
+      properties:
+        username: { type: string }
+        password: { type: string }
+    LoginResponse:
+      type: object
+      properties:
+        access_token: { type: string }
+        token_type: { type: string, example: Bearer }
+    CalibrationCreate:
+      type: object
+      required: [device_id, offset]
+      properties:
+        device_id: { type: string }
+        offset: { type: number, format: float }
+        note: { type: string }
+    Calibration:
+      allOf:
+        - $ref: '#/components/schemas/CalibrationCreate'
+        - type: object
+          properties:
+            id: { type: string }
+            timestamp: { type: string, format: date-time }
+    Alert:
+      type: object
+      properties:
+        id: { type: string }
+        type: { type: string }
+        message: { type: string }
+        level: { type: string, enum: [info, warning, critical] }
+        timestamp: { type: string, format: date-time }
+    WeeklyReport:
+      type: object
+      properties:
+        week: { type: string }
+        totals:
+          type: object
+          properties:
+            menu_items: { type: integer }
+            calibrations: { type: integer }
+            alerts: { type: integer }
+        notes:
+          type: array
+          items: { type: string }

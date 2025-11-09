@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.backend
+    container_name: ig-backend
+    environment:
+      - FLASK_ENV=production
+      - APP_ENV=production
+      - APP_VERSION=0.1.0-mvp
+      - SECRET_KEY=dev-not-secret
+      - DEMO_API_TOKEN=demo-token-please-change
+      - STRIPE_WEBHOOK_SECRET=whsec_placeholder
+    expose:
+      - "8000"
+    ports:
+      - "8000:8000"
+    networks: [app_net]
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.frontend
+      args:
+        VITE_API_BASE_URL: /api
+    container_name: ig-frontend
+    depends_on: [backend]
+    ports:
+      - "8080:80"
+    networks: [app_net]
+
+networks:
+  app_net:
+    driver: bridge

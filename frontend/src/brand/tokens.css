@@ -1,0 +1,46 @@
+/* Brand Tokens — Inventory Guardian (Generated 2025-11-06T07:17:37Z) */
+:root {
+  /* Colors */
+  --ig-bg: #0f172a;
+  --ig-surface: #111827;
+  --ig-text: #e5e7eb;
+  --ig-muted: #94a3b8;
+  --ig-primary: #22c55e;
+  --ig-warning: #f59e0b;
+  --ig-error: #ef4444;
+  --ig-success: #22c55e;
+  --ig-outline: #1f2937;
+
+  /* Typography */
+  --ig-font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  --ig-font-size-100: clamp(12px, 0.78vw, 14px);
+  --ig-font-size-200: clamp(14px, 0.86vw, 16px);
+  --ig-font-size-300: clamp(16px, 0.95vw, 18px);
+  --ig-font-size-400: clamp(18px, 1.05vw, 20px);
+  --ig-font-size-500: clamp(22px, 1.25vw, 24px);
+  --ig-font-size-600: clamp(26px, 1.6vw, 28px);
+
+  /* Spacing & Radius */
+  --ig-space-1: 4px;
+  --ig-space-2: 8px;
+  --ig-space-3: 12px;
+  --ig-space-4: 16px;
+  --ig-space-5: 24px;
+  --ig-radius-1: 8px;
+  --ig-radius-2: 12px;
+  --ig-radius-3: 16px;
+
+  /* Shadows */
+  --ig-shadow-1: 0 1px 2px rgba(0,0,0,0.25);
+  --ig-shadow-2: 0 6px 16px rgba(0,0,0,0.35);
+}
+
+/* Temporary compatibility mapping (will be applied in /brand.apply) */
+:root {
+  --bg: var(--ig-bg);
+  --card: var(--ig-surface);
+  --muted: var(--ig-muted);
+  --text: var(--ig-text);
+  --accent: var(--ig-primary);
+  --warn: var(--ig-warning);
+}

@@ -1,0 +1,25 @@
+# OpenAPI patch (excerpt) — add /billing and webhook response shape
+paths:
+  /billing/prices:
+    get:
+      summary: Stripe price catalog (from env)
+      security: [ { bearerAuth: [] } ]
+      responses:
+        '200': { description: OK }
+  /billing/status:
+    get:
+      summary: Billing status & recent webhook events
+      security: [ { bearerAuth: [] } ]
+      responses:
+        '200': { description: OK }
+  /billing/portal:
+    get:
+      summary: Billing portal URL (stub from env)
+      security: [ { bearerAuth: [] } ]
+      responses:
+        '200': { description: OK }
+  /webhooks/stripe:
+    post:
+      summary: Stripe webhook receiver (logs billing events, stub verification)
+      responses:
+        '200': { description: Accepted }

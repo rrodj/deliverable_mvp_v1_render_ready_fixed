@@ -1,0 +1,13 @@
+{
+  "id": "evt_checkout_completed_local",
+  "object": "event",
+  "type": "checkout.session.completed",
+  "data": {
+    "object": {
+      "id": "cs_local_123",
+      "object": "checkout.session",
+      "status": "complete",
+      "mode": "subscription"
+    }
+  }
+}
