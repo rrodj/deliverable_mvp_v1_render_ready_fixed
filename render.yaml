@@ -30,7 +30,7 @@ services:
       - key: STRIPE_BILLING_PORTAL_URL
         sync: false
 
-  - type: static
+  - type: static_site
     name: inventory-guardian-frontend
     plan: starter
     rootDir: .
